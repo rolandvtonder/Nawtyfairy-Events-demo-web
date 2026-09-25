@@ -101,14 +101,8 @@ export const PAGES = {
 */
 export const HEADLINE = 'a Table \nWhere Your \nPeople \nGather!'
 
-/* The band across the foot of the frame. Nine characters including the space,
-   which is what the 80ms step was tuned against. */
-export const WORDMARK = 'Cape Town'
-
 export const HERO_BODY =
   'Garden weddings, milestone parties and corporate functions across the Cape — styled, dressed and set down to the last fold.'
-
-export const HERO_CARD = 'Now taking 2026 dates'
 
 /* ---- sections ------------------------------------------------------------ */
 

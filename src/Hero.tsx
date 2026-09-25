@@ -6,24 +6,34 @@
 
       t=0      background pan    10418ms  SLOW
       t=0..    headline letters    500ms each, EASE_OUT, 60ms apart
-      t=200..  wordmark letters    600ms each, EASE_OUT, 80ms apart
-      t=400    the card           2084ms
       t=500    the detail rail    2084ms
       t=1500.. body copy, BY WORD, 1000ms each
       t=1600   the button         2084ms
-
-  TWO CASCADES RUN AT DIFFERENT RATES AT THE SAME TIME. The headline steps every
-  60ms over 500ms; the wordmark steps every 80ms over 600ms and starts 200ms
-  later. They overlap for most of their length, and that mismatch is the whole
-  effect -- matching them would flatten it.
 
   THE NEWLINE TAKES A SLOT. The headline's delays are exactly index * 60ms with
   the line breaks counted as characters, which is why the gap at each break is
   120ms rather than 60. Reproduced by walking the raw string, newlines included,
   rather than by joining the visible letters.
 
-  'Cape Town' is nine characters where the reference's city was eight, so the
-  80ms rig maps over with one extra beat and nothing to retune.
+  --------------------------------------------------------------------------
+  WHAT WAS TAKEN OUT, AND WHAT MOVED BECAUSE OF IT.
+
+  The reference hangs two more things on this frame: an outlined card on the
+  right, and the city name set enormous across the foot of the frame as a band.
+  Both are gone at the client's request -- the card read 'Now taking 2026
+  dates', the band read 'CAPE TOWN'.
+
+  That removed the second of the two cascades. The reference ran the headline at
+  60ms per character and the band at 80ms starting 200ms later, and the mismatch
+  between the two rates was most of the effect. With the band gone there is one
+  cascade, so the headline now has to carry the opening on its own -- which is
+  why its timing is untouched.
+
+  It also emptied the lower third of the artboard and the middle-right of it.
+  The left block (headline, copy, button, mark) therefore moved DOWN 48px and
+  the rail down 30, so the composition sits nearer the optical centre of the
+  frame rather than floating under the nav above a large hole. Nothing else was
+  resized; the photograph now fills the space the type used to.
 
   --------------------------------------------------------------------------
   TWO THINGS DEPART FROM THE REFERENCE, BOTH BECAUSE THIS IS A SITE AND NOT A
@@ -43,7 +53,7 @@
 import { useLayoutEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, useReducedMotion, type TargetAndTransition, type Transition } from 'motion/react'
-import { HEADLINE, WORDMARK, HERO_BODY, HERO_CARD } from './data'
+import { HEADLINE, HERO_BODY } from './data'
 import { Sparkle, Letters, Words, SLOW } from './ui'
 import { asset } from './asset'
 
@@ -102,19 +112,6 @@ const twoAxisMask = (down: string): React.CSSProperties => {
     maskComposite: 'intersect',
     WebkitMaskComposite: 'source-in',
   }
-}
-
-function ArrowOut({ size = 46 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 46 46" fill="none" aria-hidden="true" focusable="false">
-      <path
-        d="M12 34L34 12M34 12H17M34 12v17"
-        stroke="var(--color-gold)"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-      />
-    </svg>
-  )
 }
 
 export default function Hero() {
@@ -294,7 +291,7 @@ export default function Hero() {
           }}
         />
 
-        <div style={{ position: 'relative', zIndex: 3, padding: '0 16px 28px' }}>
+        <div style={{ position: 'relative', zIndex: 3, padding: '0 20px 56px' }}>
           <h1
             className="display lineclip"
             style={{
@@ -394,28 +391,6 @@ export default function Hero() {
           </Link>
         </div>
 
-        {/* The band, sized to the viewport rather than to the artboard. */}
-        <div
-          className="display lineclip"
-          style={{
-            position: 'relative',
-            zIndex: 3,
-            /* Archivo Thin sets 'CAPE TOWN' at about 5.9x its font size, so
-               17vw spans very close to the full viewport at any flow width and
-               bleeds by a few px rather than by a whole letter. 21vw lost the
-               N entirely, which left the band reading 'CAPE TOW'. */
-            fontSize: 'clamp(44px, 17vw, 175px)',
-            lineHeight: 0.78,
-            color: '#fff',
-            textTransform: 'uppercase',
-            whiteSpace: 'nowrap',
-            paddingLeft: 10,
-            marginBottom: -4,
-          }}
-          aria-hidden="true"
-        >
-          <Letters text={WORDMARK} step={80} offset={200} dur={0.6} />
-        </div>
       </section>
     )
   }
@@ -446,7 +421,7 @@ export default function Hero() {
         <h1
           className="display"
           style={{
-            ...box(59, 150, 460),
+            ...box(59, 198, 460),
             margin: 0,
             fontSize: 63,
             lineHeight: '57px',
@@ -462,7 +437,7 @@ export default function Hero() {
         <p
           className="prose"
           style={{
-            ...box(60, 404, 268),
+            ...box(60, 452, 268),
             margin: 0,
             fontSize: 17,
             lineHeight: '25px',
@@ -479,7 +454,7 @@ export default function Hero() {
             { opacity: 1, scale: 1 },
             { duration: 2.084, ease: SLOW, delay: 1.6 }
           )}
-          style={box(352, 407, 178, 58)}
+          style={box(352, 455, 178, 58)}
         >
           <Link
             to="/contact"
@@ -512,7 +487,7 @@ export default function Hero() {
             { duration: 1.2, ease: SLOW, delay: 1.9 }
           )}
           style={{
-            ...box(232, 512, 92, 92),
+            ...box(232, 560, 92, 92),
             borderRadius: '50%',
             border: '1px solid rgba(201,169,97,0.55)',
           }}
@@ -529,53 +504,11 @@ export default function Hero() {
           </span>
         </motion.div>
 
-        {/* ---- the card --------------------------------------------------- */}
-        <motion.div
-          {...mo(
-            { opacity: 0, x: 44, y: 34 },
-            { opacity: 1, x: 0, y: 0 },
-            { duration: 2.084, ease: SLOW, delay: 0.4 }
-          )}
-          style={box(933, 265, 293, 314)}
-        >
-          <Link
-            to="/contact"
-            className="hero-card"
-            style={{
-              position: 'relative',
-              display: 'block',
-              width: '100%',
-              height: '100%',
-              borderRadius: 40,
-              border: '1px solid rgba(232,220,196,0.62)',
-              textDecoration: 'none',
-            }}
-          >
-            <span style={{ ...box(213, 22), display: 'block' }}>
-              <ArrowOut />
-            </span>
-            <span
-              className="display"
-              style={{
-                ...box(24, 184, 232),
-                display: 'block',
-                fontSize: 32,
-                lineHeight: '38px',
-                fontWeight: 300,
-                color: '#fff',
-                textTransform: 'uppercase',
-              }}
-            >
-              {HERO_CARD}
-            </span>
-          </Link>
-        </motion.div>
-
         {/* ---- the detail rail: each starts further right ------------------ */}
         <Link
           to="/gallery"
           aria-label="View the gallery"
-          style={{ ...box(1347, 270, 68, 302), display: 'block' }}
+          style={{ ...box(1347, 300, 68, 302), display: 'block' }}
         >
           {THUMBS.map((t) => (
             <motion.img
@@ -599,37 +532,6 @@ export default function Hero() {
           ))}
         </Link>
 
-        {/*
-          The band. Not centred text that happens to overflow -- sized and
-          positioned to be read as a band rather than a word, bleeding off both
-          edges, with the frame clipping it. Hidden from the accessibility tree
-          because 'Cape Town' is already in the page's copy and heading
-          structure; here it is a graphic.
-
-          SIZED BY MEASUREMENT, NOT BY COPYING. The reference sets its eight-
-          letter city at 294px inside a 1491 box, where it just fits. Archivo
-          Thin renders 'CAPE TOWN' at 294px 1733px wide against a 1440 stage,
-          which clipped the N clean off and left the band reading 'CAPE TOW'.
-          At 258px it measures about 1520 and spans -22 to 1498 -- still bleeding
-          off both edges, as intended, but now losing only the shoulders of the
-          outer letters rather than a whole one. The line-height and y came down
-          with it (206->181, 600->620) so the band still sits on the artboard's
-          floor at 801 rather than floating 25px above it.
-        */}
-        <div
-          className="display"
-          style={{
-            ...box(-22, 620, 1524),
-            fontSize: 258,
-            lineHeight: '181px',
-            color: '#fff',
-            textTransform: 'uppercase',
-            whiteSpace: 'nowrap',
-          }}
-          aria-hidden="true"
-        >
-          <span className="lineclip"><Letters text={WORDMARK} step={80} offset={200} dur={0.6} /></span>
-        </div>
       </div>
     </section>
   )

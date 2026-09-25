@@ -1,0 +1,10 @@
+# Normalise to LF in the repository regardless of the machine committing.
+# Without this, committing from Windows stores CRLF and every later diff from
+# another machine shows the whole file as changed.
+* text=auto eol=lf
+
+# Never touch binaries.
+*.webp binary
+*.png  binary
+*.jpg  binary
+*.ico  binary

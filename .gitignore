@@ -1,0 +1,18 @@
+# dependencies
+node_modules
+
+# build output
+dist
+
+# local env / editor
+*.local
+.env
+.env.*
+.vscode
+.idea
+
+# OS and OneDrive artefacts (this project lives in a synced folder)
+.DS_Store
+Thumbs.db
+desktop.ini
+*.tmp

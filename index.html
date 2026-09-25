@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nawtyfairy Events — Event styling & décor, Cape Town</title>
+    <meta
+      name="description"
+      content="Nawtyfairy Events is a Cape Town event styling studio in Langa. Weddings, private celebrations, corporate functions, and décor and furniture hire — styled, dressed and set."
+    />
+    <meta name="theme-color" content="#0a0908" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Nawtyfairy Events — Event styling &amp; décor, Cape Town" />
+    <meta
+      property="og:description"
+      content="Garden weddings, milestone parties and corporate functions across the Cape — styled, dressed and set down to the last fold."
+    />
+    <meta property="og:image" content="/assets/og.webp" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@100..700&family=Cormorant+Infant:ital,wght@0,300..700;1,300..600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!--
+      The hero plate is the largest paint on the page and the one thing worth
+      preloading; everything else below the fold is lazy.
+    -->
+    <link rel="preload" as="image" href="/assets/hero.webp" fetchpriority="high" />
+
+    <!--
+      Structured data, so the studio can be found as a local business. Every
+      value here is the one published on the existing directory listing.
+    -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Nawtyfairy Events",
+        "description": "Event styling and décor studio in Langa, Cape Town.",
+        "telephone": "+27834999495",
+        "image": "/assets/og.webp",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Voel St, Belgravia",
+          "addressLocality": "Cape Town",
+          "postalCode": "7798",
+          "addressCountry": "ZA"
+        },
+        "areaServed": "Cape Town, Western Cape",
+        "openingHoursSpecification": [
+          { "@type": "OpeningHoursSpecification", "dayOfWeek": "Monday", "opens": "09:00", "closes": "17:30" },
+          { "@type": "OpeningHoursSpecification", "dayOfWeek": "Tuesday", "opens": "09:00", "closes": "17:00" },
+          { "@type": "OpeningHoursSpecification", "dayOfWeek": "Wednesday", "opens": "09:30", "closes": "18:00" },
+          { "@type": "OpeningHoursSpecification", "dayOfWeek": "Thursday", "opens": "09:00", "closes": "17:00" },
+          { "@type": "OpeningHoursSpecification", "dayOfWeek": "Friday", "opens": "09:00", "closes": "17:00" },
+          { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "08:30", "closes": "17:00" }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

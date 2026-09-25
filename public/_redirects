@@ -1,0 +1,13 @@
+# Single-page app fallback.
+#
+# Every route (/about, /services, ...) is handled by the router in the browser,
+# not by a file on disk. Without this, loading /about directly -- from a
+# bookmark, a shared link or a refresh -- asks the host for a file that does not
+# exist and returns a 404. This hands every path to index.html and lets the
+# router work out what to show. The 200 matters: a 301 would change the URL.
+#
+# Read by Netlify and Cloudflare Pages. Other hosts want their own file:
+#   Vercel   vercel.json  -> { "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }] }
+#   Apache   .htaccess    -> FallbackResource /index.html
+#   Nginx    site config  -> try_files $uri $uri/ /index.html;
+/*    /index.html   200

@@ -1,0 +1,145 @@
+@import "tailwindcss";
+@import "./components.css";
+
+/*
+  NAWTYFAIRY EVENTS — a Cape Town event styling studio.
+
+  The bones are the Grey Wolf reference's: a 1440x810 artboard, a tall still
+  panned slowly behind it, two per-character cascades running at different
+  rates, a word-by-word paragraph, and a wordmark set as a band across the foot
+  of the frame rather than as a word.
+
+  What changed, and why:
+
+  EMERALD BECAME CHAMPAGNE. The reference pairs a cold accent against a wolf's
+  ice-blue eyes. This plate is a garden at dusk -- warm linen, brass-toned
+  glassware, green foliage -- and a cold accent fought it. Gold sits in the
+  photograph already, so it reads as picked out of the frame rather than laid
+  over it. #C9A961 on #0A0908 measures 8.8:1, which clears AA and AAA for normal
+  text, so the accent can carry real copy rather than being decoration only.
+
+  A SERIF JOINED. The reference runs one sans for everything. An event styling
+  studio is selling taste, and Archivo Thin -- superb as a 294px band -- is
+  anonymous at 17px. Cormorant Infant carries the prose; Archivo carries the
+  display type and every piece of UI furniture. Two families, three jobs, no
+  overlap.
+*/
+@theme {
+  --color-void: #0a0908;
+  --color-ink: #12100d;
+  --color-raise: #191510;
+  --color-gold: #c9a961;
+  --color-champagne: #e8dcc4;
+  --color-bronze: #7a5a2e;
+
+  --font-display: "Archivo", system-ui, sans-serif;
+  --font-body: "Cormorant Infant", Georgia, serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* The nav is fixed; without this an anchor jump buries the heading under it. */
+  scroll-padding-top: 96px;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  background: var(--color-void);
+}
+
+body {
+  font-family: var(--font-body);
+  color: rgba(255, 255, 255, 0.82);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/*
+  Cormorant Infant has a small x-height, so it sets smaller than its nominal
+  size. 17px/1.65 is the point where it reads as comfortably as a 16px sans.
+*/
+.prose {
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+.display {
+  font-family: var(--font-display);
+  font-weight: 100;
+  letter-spacing: -0.004em;
+}
+
+/* Archivo does the UI work: nav, buttons, labels, eyebrows. */
+.ui {
+  font-family: var(--font-display);
+  font-weight: 400;
+}
+
+.eyebrow {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+}
+
+/*
+  Each letter of the cascading headlines is masked by its own line box, so it
+  rises from behind the line above rather than fading in place. Per-letter
+  transforms alone would let the ascenders show through the gap between lines.
+*/
+.lineclip {
+  overflow: hidden;
+  display: block;
+}
+
+/*
+  The word box inside a cascading heading. Every letter is an inline-block, and
+  a browser will break between any two adjacent inline-level boxes -- which
+  wrapped headings in the middle of words on narrow screens. Grouping each word
+  in a nowrap box leaves the spaces as the only break opportunities.
+*/
+.word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+/*
+  One focus ring for the whole site. :focus-visible rather than :focus so a
+  mouse click on a button does not leave a ring behind, while keyboard traversal
+  always shows one. Gold against the dark ground measures well past the 3:1 the
+  non-text contrast rule asks for.
+*/
+:where(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+::selection {
+  background: var(--color-gold);
+  color: var(--color-void);
+}
+
+/*
+  The hero's choreography is long -- the pan alone runs 10.4s. For anyone who
+  has asked the system to calm motion down, the whole rig collapses to its END
+  STATE, which is the composition the reveals were built to arrive at. Nothing
+  is hidden, nothing has to be waited out.
+*/
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -45,6 +45,7 @@ import { Link } from 'react-router-dom'
 import { motion, useReducedMotion, type TargetAndTransition, type Transition } from 'motion/react'
 import { HEADLINE, WORDMARK, HERO_BODY, HERO_CARD } from './data'
 import { Sparkle, Letters, Words, SLOW } from './ui'
+import { asset } from './asset'
 
 const STAGE_W = 1440
 const STAGE_H = 810
@@ -82,10 +83,10 @@ const box = (x: number, y: number, w?: number, h?: number): React.CSSProperties 
   arrive in sequence off one shared duration rather than needing four delays.
 */
 const THUMBS = [
-  { img: '/assets/thumb-1.webp', y: 0, from: 110 },
-  { img: '/assets/thumb-2.webp', y: 78, from: 150 },
-  { img: '/assets/thumb-3.webp', y: 157, from: 200 },
-  { img: '/assets/thumb-4.webp', y: 234, from: 210 },
+  { img: asset('assets/thumb-1.webp'), y: 0, from: 110 },
+  { img: asset('assets/thumb-2.webp'), y: 78, from: 150 },
+  { img: asset('assets/thumb-3.webp'), y: 157, from: 200 },
+  { img: asset('assets/thumb-4.webp'), y: 234, from: 210 },
 ]
 
 /*
@@ -166,7 +167,7 @@ export default function Hero() {
   const flowPlate = (
     <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', zIndex: 1 }}>
       <motion.img
-        src="/assets/hero.webp"
+        src={asset('assets/hero.webp')}
         alt=""
         fetchPriority="high"
         {...mo({ y: '-15.2%' }, { y: '0%' }, { duration: BG_MS / 1000, ease: SLOW })}
@@ -200,7 +201,7 @@ export default function Hero() {
       }}
     >
       <motion.img
-        src="/assets/hero.webp"
+        src={asset('assets/hero.webp')}
         alt=""
         width={1440}
         height={BG_H}

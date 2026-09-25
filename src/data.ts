@@ -8,6 +8,8 @@
   rather than paraphrased.
 */
 
+import { asset } from './asset'
+
 export const BUSINESS = {
   name: 'Nawtyfairy Events',
   tagline: 'Event styling & décor — Cape Town',
@@ -170,22 +172,22 @@ export const SERVICES: ReadonlyArray<Service> = [
 */
 export const GALLERY = [
   {
-    src: '/assets/gallery-1.webp',
+    src: asset('assets/gallery-1.webp'),
     alt: 'Garden marquee set with long trestle tables and clear tiffany chairs for a seated reception',
     span: 'wide' as const,
   },
   {
-    src: '/assets/gallery-2.webp',
+    src: asset('assets/gallery-2.webp'),
     alt: 'Table runner dressed with trailing greenery, charger plates and folded white napkins',
     span: 'tall' as const,
   },
   {
-    src: '/assets/gallery-3.webp',
+    src: asset('assets/gallery-3.webp'),
     alt: 'Glassware, cutlery and linen laid along the length of the top table',
     span: 'tall' as const,
   },
   {
-    src: '/assets/gallery-4.webp',
+    src: asset('assets/gallery-4.webp'),
     alt: 'Clear tiffany chairs with white seat pads lined along the table on the lawn',
     span: 'wide' as const,
   },

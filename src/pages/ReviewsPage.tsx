@@ -3,6 +3,7 @@ import Cta from '../Cta'
 import { Testimonials } from '../Sections'
 import { PAGES, TESTIMONIALS } from '../data'
 import { useDocumentTitle } from '../ui'
+import { asset } from '../asset'
 
 export default function ReviewsPage() {
   useDocumentTitle('Reviews — Nawtyfairy Events')
@@ -22,7 +23,7 @@ export default function ReviewsPage() {
             ? PAGES.reviews.blurb
             : 'We have not gathered reviews online yet — if we have styled your event, we would love to hear from you.'
         }
-        image="/assets/gallery-2.webp"
+        image={asset('assets/gallery-2.webp')}
         focus="50% 55%"
       />
       <Testimonials heading={false} />

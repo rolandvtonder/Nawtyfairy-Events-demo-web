@@ -29,9 +29,18 @@ import NotFound from './pages/NotFound'
 import { BUSINESS, NAV } from './data'
 import { Container, Sparkle } from './ui'
 
+/*
+  The router has to be told where the site is mounted. On GitHub Pages a project
+  site lives at /<repo-name>/, so a <Link to="/about"> would navigate to
+  /about -- off the end of the deployment and straight to a 404. BASE_URL is
+  whatever --base was set to at build time, and '/' everywhere else, so this is
+  a no-op for local dev and for a root-hosted deploy.
+*/
+const BASENAME = import.meta.env.BASE_URL.replace(/\/$/, '') || '/'
+
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={BASENAME}>
       <SiteNav />
       <Shell />
       <Footer />

@@ -69,6 +69,32 @@ of that file:
 
 Get this wrong and the site looks perfect until the first person refreshes.
 
+### GitHub Pages
+
+Pages is already set up, and it needs more than the others because it serves a
+project site from a **subpath** (`/Nawtyfairy-Events-demo-web/`) rather than
+from a domain root. Three things follow from that, all handled:
+
+- `.github/workflows/deploy.yml` builds the site and publishes `dist/`. Pages'
+  default "deploy from a branch" mode would serve this repo's source
+  `index.html`, whose script tag points at `/src/main.tsx` — TypeScript no
+  browser can run. That renders a blank page.
+- The workflow passes `--base=/<repo-name>/`, and the router reads it back via
+  `import.meta.env.BASE_URL`. Any asset path written as a string in a `.ts`
+  file goes through `asset()` in `src/asset.ts`, because Vite cannot rewrite a
+  string literal the way it rewrites an import.
+- Pages ignores `_redirects`, but it does serve `404.html` for unknown paths,
+  so the workflow copies `index.html` to `404.html`. That is what makes
+  `/gallery` survive a refresh.
+
+**One-off setting you have to click yourself:** Settings → Pages → Build and
+deployment → Source → **GitHub Actions**. On "Deploy from a branch" the
+workflow runs and nothing changes.
+
+Moving to a root-hosted domain later needs no code change — `npm run build`
+with no `--base` produces a root build, and `asset()` and the router basename
+both collapse to `/`.
+
 ## Where to change things
 
 **All the words and business details live in one file: [`src/data.ts`](src/data.ts).**

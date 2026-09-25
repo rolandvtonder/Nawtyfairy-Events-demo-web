@@ -1,0 +1,74 @@
+# Build the site and publish it to GitHub Pages.
+#
+# WHY THIS IS NEEDED. Pages' default mode serves the repository's files as they
+# are. This repo's root index.html is the Vite DEV entry point -- its script tag
+# points at /src/main.tsx, which is TypeScript with JSX that no browser can run
+# and which is not deployed anyway. Served raw it gives a blank page. The site
+# has to be built first, and only dist/ published.
+#
+# ONE-OFF SETUP, which cannot be done from a file:
+#   Repository Settings -> Pages -> Build and deployment -> Source: GitHub Actions
+# Leave it on "Deploy from a branch" and this workflow runs but nothing changes.
+
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never let two deploys race; queue them and drop stale ones.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # A project site is served from /<repo-name>/, not from the domain root,
+      # so every asset and route needs that prefix. Taking it from the repo name
+      # means renaming the repo cannot silently break the build.
+      - name: Build
+        run: npm run build -- --base=/${{ github.event.repository.name }}/
+
+      # SPA fallback. Pages has no rewrite rules -- public/_redirects is only
+      # read by Netlify and Cloudflare. What Pages does do is serve 404.html for
+      # any path it cannot find, so an identical copy of index.html there boots
+      # the router and lets it resolve /about, /gallery and the rest. Without
+      # this, every deep link and every refresh away from the home page fails.
+      - name: SPA fallback for deep links
+        run: cp dist/index.html dist/404.html
+
+      # Stop Pages running the output through Jekyll, which ignores files and
+      # folders beginning with an underscore.
+      - name: Disable Jekyll
+        run: touch dist/.nojekyll
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

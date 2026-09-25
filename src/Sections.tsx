@@ -20,6 +20,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ABOUT, SERVICES, GALLERY, TESTIMONIALS, BUSINESS } from './data'
 import { Container, Section, Reveal, Rule, Eyebrow, Heading, Sparkle } from './ui'
+import { asset } from './asset'
 
 type Head = { heading?: boolean }
 
@@ -67,7 +68,7 @@ export function About({ heading = true }: Head) {
           <Reveal delay={0.1} y={34}>
             <figure style={{ margin: 0, position: 'relative' }}>
               <img
-                src="/assets/gallery-2.webp"
+                src={asset('assets/gallery-2.webp')}
                 alt="A dressed trestle table with trailing greenery, charger plates and folded linen"
                 width={1100}
                 height={825}
